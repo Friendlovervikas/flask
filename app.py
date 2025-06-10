@@ -143,4 +143,8 @@ def results():
 # ---------------- Run Flask ----------------
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Get the port from the environment variable 'PORT' or default to 5000 if not set
+    port = int(os.environ.get('PORT', 5000))
+    # Run the app, listening on all public IPs (0.0.0.0) and the specified port
+    # Set debug to False for production environments
+    app.run(host='0.0.0.0', port=port, debug=False)
