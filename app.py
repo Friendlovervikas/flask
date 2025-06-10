@@ -143,4 +143,4 @@ def results():
 # ---------------- Run Flask ----------------
 
 if __name__ == '__main__':
-    app.run(port=50001, debug=True)
+    app.run(debug=True)
