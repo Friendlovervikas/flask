@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hashtag Sentiment Results</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+        crossorigin="anonymous">
+  <style>
+    h2.my-4.text-center {
+        background-color: #007bff;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px #000;
+    }
+    .positive { color: green; font-weight: bold; }
+    .negative { color: red; font-weight: bold; }
+    .neutral { color: orange; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2 class="my-4 text-center">Sentiment Analysis Results for {{ hashtag or "#Vikas" }}</h2>
+
+  <div class="form-group">
+    <label for="sentimentFilter">Filter by Sentiment:</label>
+    <select id="sentimentFilter" class="form-control" onchange="filterTable()">
+      <option value="all">All</option>
+      <option value="positive">Positive</option>
+      <option value="neutral">Neutral</option>
+      <option value="negative">Negative</option>
+    </select>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover" id="tweetsTable">
+      <thead>
+        <tr>
+          <th>Original Tweet</th>
+          <th>Cleaned Tweet</th>
+          <th>Sentiment</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if tweets %}
+        {% for tweet in tweets %}
+        <tr class="{{ tweet.sentiment|lower }}">
+          <td>{{ tweet.original }}</td>
+          <td>{{ tweet.cleaned }}</td>
+          <td class="{{ tweet.sentiment|lower }}">{{ tweet.sentiment }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="3" class="text-center">No tweets found.</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <a href="/" class="btn btn-primary my-4">Go Back</a>
+</div>
+
+<script>
+function filterTable() {
+    var filter = document.getElementById("sentimentFilter").value.toLowerCase();
+    var rows = document.querySelectorAll("#tweetsTable tbody tr");
+    rows.forEach(row => {
+        row.style.display = (filter === "all" || row.classList.contains(filter)) ? "" : "none";
+    });
+}
+</script>
+
+</body>
+</html>
